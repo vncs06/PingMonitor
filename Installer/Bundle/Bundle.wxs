@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="PingMonitor Setup" Version="1.0.0.0" Manufacturer="YourCompany" UpgradeCode="3f3e52f2-c1e4-47b1-9430-8b1b6b88abcd">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+
+    <Chain>
+      <!-- Runtime download disabled: app is self-contained -->
+      <!-- Our MSI -->
+      <MsiPackage SourceFile="..\Msi\PingMonitor.msi" Compressed="yes" Vital="yes" DisplayInternalUI="yes">
+        <MsiProperty Name="INSTALLDESKTOPSHORTCUT" Value="[InstallDesktopShortcut]" />
+      </MsiPackage>
+    </Chain>
+
+    <Variable Name="InstallDesktopShortcut" Type="numeric" Value="1" bal:Overridable="yes" />
+  </Bundle>
+
+  <!-- Runtime package group removed for self-contained distribution -->
+
+  <!-- Optional SDK package group (commented out in Chain) -->
+  <Fragment>
+    <PackageGroup Id="DotNetSdk80x64">
+      <ExePackage Id="DotNetSdk80x64Exe" Compressed="yes" PerMachine="yes" Permanent="yes" Vital="no"
+                  SourceFile="https://download.visualstudio.microsoft.com/download/pr/4e86eed2-0a84-40a4-9d37-7c039f3f7e11/0a4f42b6e19a22ff40f76c18a9d10f7d/dotnet-sdk-8.0.414-win-x64.exe">
+        <ExitCode Value="0" Behavior="success" />
+        <ExitCode Value="3010" Behavior="forceReboot" />
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+</Wix>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="PingMonitorExeComponent" Guid="*">
+        <File Id="PingMonitorExe" Source="Payload\\PingMonitor.exe" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="AppFiles">
+      <ComponentRef Id="PingMonitorExeComponent" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>

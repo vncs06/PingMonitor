@@ -1,0 +1,19 @@
+bin/
+obj/
+Installer/Msi/obj/
+Installer/Bundle/obj/
+Installer/Msi/Payload/
+artifacts/*.tmp
+artifacts/*.log
+artifacts/
+# Python
+python-pingmonitor/.venv/
+python-pingmonitor/__pycache__/
+python-pingmonitor/build/
+python-pingmonitor/dist/
+python-pingmonitor/*.spec
+*.wixpdb
+**/*.user
+**/*.suo
+**/.vs/
+.vscode/

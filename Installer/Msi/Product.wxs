@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="PingMonitor" Language="1046" Version="1.0.0.0" Manufacturer="YourCompany" UpgradeCode="b2e0c8e2-1d9c-4b1a-9b1d-0aa6e1a0abcd">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+
+    <MediaTemplate />
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Property Id="INSTALLDESKTOPSHORTCUT" Value="1" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="PingMonitor" />
+      </Directory>
+    </Directory>
+
+    <Feature Id="MainFeature" Title="PingMonitor" Level="1">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentRef Id="DesktopShortcutComponent" />
+    </Feature>
+
+    <UIRef Id="WixUI_InstallDir" />
+    <UI>
+      <!-- Insert our ShortcutDlg after InstallDirDlg -->
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="ShortcutDlg">1</Publish>
+      <Publish Dialog="ShortcutDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg">1</Publish>
+      <Publish Dialog="ShortcutDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="ShortcutDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+    </UI>
+
+  </Product>
+
+  <!-- Shortcut fragment placed outside Product -->
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="DesktopShortcutComponent" Guid="*">
+        <Condition>INSTALLDESKTOPSHORTCUT=1</Condition>
+        <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="PingMonitor" WorkingDirectory="INSTALLFOLDER" Advertise="no" Target="[#PingMonitorExe]" />
+        <RegistryValue Root="HKCU" Key="Software\PingMonitor" Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </DirectoryRef>
+  </Fragment>
+
+
+  <!-- Custom dialog to choose desktop shortcut -->
+  <Fragment>
+    <UI>
+      <Dialog Id="ShortcutDlg" Width="370" Height="270" Title="Escolhas do Atalho">
+        <Control Id="Title" Type="Text" X="15" Y="15" Width="340" Height="30" TabSkip="yes" Text="Selecione se deseja criar um atalho na Área de Trabalho."/>
+        <Control Id="ShortcutChk" Type="CheckBox" X="20" Y="60" Width="330" Height="17" Property="INSTALLDESKTOPSHORTCUT" CheckBoxValue="1" Text="Criar atalho na Área de Trabalho"/>
+  <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="Voltar"/>
+  <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="Avançar"/>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancelar"/>
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>
